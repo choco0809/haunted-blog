@@ -45,6 +45,10 @@ class BlogsController < ApplicationController
 
   def set_blog
     @blog = Blog.find(params[:id])
+    if @blog.secret = true && @blog.user != current_user
+      # 他人の秘密のブログは閲覧できない使用のため、ActiveRecord::RecordNotFound を発生させる
+      @blog = Blog.find_by!(id: params[:id], secret: false)
+    end
   end
 
   def blog_params
