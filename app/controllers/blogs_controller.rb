@@ -9,13 +9,17 @@ class BlogsController < ApplicationController
     @blogs = Blog.search(params[:term]).published.default_order
   end
 
-  def show; end
+  def show
+    raise ActiveRecord::RecordNotFound if @blog.user != current_user && @blog.secret
+  end
 
   def new
     @blog = Blog.new
   end
 
-  def edit; end
+  def edit
+    raise ActiveRecord::RecordNotFound if @blog.user != current_user
+  end
 
   def create
     @blog = current_user.blogs.new(blog_params)
@@ -45,10 +49,6 @@ class BlogsController < ApplicationController
 
   def set_blog
     @blog = Blog.find(params[:id])
-    if @blog.secret = true && @blog.user != current_user
-      # 他人の秘密のブログは閲覧できない仕様のため、ActiveRecord::RecordNotFound を発生させる
-      @blog = Blog.find_by!(id: params[:id], secret: false)
-    end
   end
 
   def blog_params
