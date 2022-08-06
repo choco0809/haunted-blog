@@ -59,6 +59,6 @@ class BlogsController < ApplicationController
   end
 
   def check_owned_by
-    raise ActiveRecord::RecordNotFound if !@blog.owned_by?(current_user)
+    raise ActiveRecord::RecordNotFound unless @blog.owned_by?(current_user)
   end
 end
