@@ -11,8 +11,6 @@ class Blog < ApplicationRecord
 
   scope :accessible_to_blogs, ->(id) { where('user_id = ? and secret = TRUE or secret = FALSE', id) }
 
-  scope :my_blogs, ->(id) { where('user_id = ?', id) }
-
   scope :search, lambda { |term|
     where('title LIKE ? OR content LIKE ?', "%#{term}%", "%#{term}%")
   }
