@@ -14,8 +14,7 @@ class Blog < ApplicationRecord
   scope :my_blogs, ->(id) { where('user_id = ?', id) }
 
   scope :search, lambda { |term|
-    term = '' if term.nil?
-    where('title LIKE ? OR content LIKE ?', "%#{sanitize_sql_like(term)}%", "%#{sanitize_sql_like(term)}%")
+    where('title LIKE ? OR content LIKE ?', "%#{term}%", "%#{term}%")
   }
 
   scope :default_order, -> { order(id: :desc) }
