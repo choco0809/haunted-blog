@@ -11,7 +11,7 @@ class BlogsController < ApplicationController
 
   def show
     user_id = current_user.nil? ? '' : current_user.id
-    @blog = Blog.accessed(user_id).find(params[:id])
+    @blog = Blog.accessible(user_id).find(params[:id])
   end
 
   def new
